@@ -108,7 +108,7 @@ Generates:
 # 🧠 Machine Learning
 
 
-```python
+
 Input:
 
 CIE Marks
