@@ -118,3 +118,53 @@ SEE Marks
 Output:
 
 Predicted Grade Point
+🛠️ Built With
+Python
+│
+├── Streamlit
+├── Pandas
+├── Scikit-Learn
+├── Plotly
+└── Joblib
+📂 Project Structure
+CGPA-Predictor-AI
+
+│
+├── app.py              # Main Streamlit Application
+├── cgpa_model.pkl      # Trained ML Model
+├── cgpa_data.csv       # Dataset
+├── dataset.py          # Data Generation
+├── train.py            # Model Training
+├── predict.py          # Prediction Logic
+├── reverse_predict.py  # Target CGPA Planner
+├── requirements.txt    # Dependencies
+└── README.md
+📈 Future Improvements
+ Student Login System
+ Database Integration
+ PDF Report Card Generation
+ AI Based Performance Suggestions
+ More Accurate ML Model
+ Cloud Deployment
+ Mobile Friendly UI
+🎯 Project Goal
+
+The goal of CGPA Predictor AI is to help students understand their academic performance, predict results, and improve their future preparation using Machine Learning.
+
+👨‍💻 Author
+
+Aditya Sahane
+
+AI & Data Science Student
+
+⭐ Support
+
+If you find this project useful, consider giving it a star! ⭐
+
+📜 License
+
+This project is created for educational and learning purposes.
+
+
+
+
