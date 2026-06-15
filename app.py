@@ -238,6 +238,24 @@ def generate_pdf(report):
     doc.build(content)
 
     return file_name
+st.subheader("📄 Report Section")
+
+# Make sure report exists
+if report:
+
+    st.write("### Student Report Preview")
+    st.json(report)  # optional preview (you can remove later)
+
+    if st.button("🎓 Generate Report Card PDF"):
+        file_name = generate_pdf(report)
+
+        with open(file_name, "rb") as f:
+            st.download_button(
+                label="⬇️ Download Report Card",
+                data=f,
+                file_name=file_name,
+                mime="application/pdf"
+            )
 
 # =================================================
 # HOME
