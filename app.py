@@ -238,29 +238,6 @@ def generate_pdf(report):
     doc.build(content)
 
     return file_name
-st.subheader("📄 Report Section")
-
-# Make sure report exists
-st.subheader("📄 Report Section")
-
-if "report" in st.session_state:
-
-    report = st.session_state.report
-
-    st.write("### Student Report Preview")
-    st.json(report)
-
-    if st.button("🎓 Generate Report Card PDF"):
-
-        file_name = generate_pdf(report)
-
-        with open(file_name, "rb") as f:
-            st.download_button(
-                label="⬇️ Download Report Card",
-                data=f,
-                file_name=file_name,
-                mime="application/pdf"
-            )
 
 # =================================================
 # HOME
@@ -516,4 +493,25 @@ else:
             title="CIE vs SEE Comparison"
         )
         st.plotly_chart(fig2, use_container_width=True)
+        st.subheader("📄 Report Section")
+
+if "report" in st.session_state:
+
+    report = st.session_state.report
+
+    st.write("### Student Report Preview")
+    st.json(report)
+
+    if st.button("🎓 Generate Report Card PDF"):
+
+        file_name = generate_pdf(report)
+
+        with open(file_name, "rb") as f:
+            st.download_button(
+                label="⬇️ Download Report Card",
+                data=f,
+                file_name=file_name,
+                mime="application/pdf"
+            )
+
 
