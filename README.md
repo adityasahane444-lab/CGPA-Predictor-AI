@@ -147,3 +147,47 @@ CGPA-Predictor-AI
 ├── reverse_predict.py
 ├── requirements.txt
 └── README.md
+
+```
+
+---
+
+## 📈 Future Improvements
+
+- Student Login System
+- Database Integration
+- PDF Report Card Generation
+- AI Based Performance Suggestions
+- More Accurate ML Model
+- Cloud Deployment
+- Mobile Friendly UI
+
+
+---
+
+## 🎯 Project Goal
+
+The goal of CGPA Predictor AI is to help students understand their academic performance, predict results, identify weak areas, and improve their future preparation using Machine Learning.
+
+
+---
+
+## 👨‍💻 Author
+
+**Aditya Sahane**
+
+AI & Data Science Student
+
+
+---
+
+## ⭐ Support
+
+If you find this project useful, consider giving it a star! ⭐
+
+
+---
+
+## 📜 License
+
+This project is created for educational and learning purposes.
