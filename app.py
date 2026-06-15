@@ -241,12 +241,17 @@ def generate_pdf(report):
 st.subheader("📄 Report Section")
 
 # Make sure report exists
-if report:
+st.subheader("📄 Report Section")
+
+if "report" in st.session_state:
+
+    report = st.session_state.report
 
     st.write("### Student Report Preview")
-    st.json(report)  # optional preview (you can remove later)
+    st.json(report)
 
     if st.button("🎓 Generate Report Card PDF"):
+
         file_name = generate_pdf(report)
 
         with open(file_name, "rb") as f:
