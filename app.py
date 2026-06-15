@@ -152,25 +152,17 @@ def generate_pdf(report):
         ("PADDING", (0,0), (-1,-1), 6),
     ]))
 
-    content.append(info_table)
-    content.append(Spacer(1, 15))
-
     # ================= CGPA HIGHLIGHT BOX =================
-    cgpa = float(report["cgpa"])
+        cgpa = float(report["cgpa"])
 
-    if cgpa >= 8:
-        grade = "A (Excellent)"
-    elif cgpa >= 6:
-        grade = "B (Good)"
-    else:
-        grade = "C (Needs Improvement)"
+        pdf_grade = grade(cgpa)
 
-    content.append(Paragraph(
-        f"<b>FINAL CGPA:</b> {cgpa} &nbsp;&nbsp;&nbsp; <b>GRADE:</b> {grade}",
-        styles["Heading2"]
-    ))
+        content.append(Paragraph(
+            f"<b>FINAL CGPA:</b> {cgpa:.2f} &nbsp;&nbsp;&nbsp; <b>GRADE:</b> {pdf_grade}",
+            styles["Heading2"]
+        ))
 
-    content.append(Spacer(1, 15))
+        content.append(Spacer(1, 15))
 
     # ================= SUBJECT TABLE =================
     table_data = [["Subject", "CIE", "SEE", "Grade Point"]]
