@@ -151,18 +151,31 @@ def generate_pdf(report):
         ("BACKGROUND", (0,0), (0,-1), colors.lightgrey),
         ("PADDING", (0,0), (-1,-1), 6),
     ]))
+    content.append(info_table)
+    content.append(Spacer(1, 15))
 
     # ================= CGPA HIGHLIGHT BOX =================
-        cgpa = float(report["cgpa"])
+       
+    cgpa = float(report["cgpa"])
 
-        pdf_grade = grade(cgpa)
+    if cgpa >= 9:
+        grade = "O Outstanding"
+    elif cgpa >= 8:
+        grade = "A+ Excellent"
+    elif cgpa >= 7:
+        grade = "A Very Good"
+    elif cgpa >= 6:
+        grade = "B Good"
+    elif cgpa >= 5:
+        grade = "C Average"
+    else:
+        grade = "F"
 
-        content.append(Paragraph(
-            f"<b>FINAL CGPA:</b> {cgpa:.2f} &nbsp;&nbsp;&nbsp; <b>GRADE:</b> {pdf_grade}",
-            styles["Heading2"]
-        ))
-
-        content.append(Spacer(1, 15))
+    content.append(Paragraph(
+        f"<b>FINAL CGPA:</b> {cgpa:.2f} &nbsp;&nbsp;&nbsp; <b>GRADE:</b> {grade}",
+        styles["Heading2"]
+    ))
+    content.append(Spacer(1, 15))
 
     # ================= SUBJECT TABLE =================
     table_data = [["Subject", "CIE", "SEE", "Grade Point"]]
@@ -195,12 +208,12 @@ def generate_pdf(report):
     weak = min(report["data"], key=lambda x: x["GP"])
 
     content.append(Paragraph(
-        f"<b>Strong Subject:</b> {best['Subject']} (GP {best['GP']})",
+        f"<b>Strong Subject:</b> {best['Subject']} (GP {best['GP']:.2f})",
         styles["Normal"]
     ))
 
     content.append(Paragraph(
-        f"<b>Improvement Needed:</b> {weak['Subject']} (GP {weak['GP']})",
+        f"<b>Improvement Needed:</b> {weak['Subject']} (GP {weak['GP']:.2f})",
         styles["Normal"]
     ))
 
@@ -490,7 +503,8 @@ else:
         
         st.subheader("📄 Report Section")
         
-        if "report" in st.session_state:
+
+        if st.session_state.report is not None:
 
             report = st.session_state.report
 
@@ -499,9 +513,13 @@ else:
                 file_name = generate_pdf(report)
 
                 with open(file_name, "rb") as f:
-                    st.download_button(
-                        label="⬇️ Download Report Card",
-                        data=f,
-                        file_name=file_name,
-                        mime="application/pdf"
-                    )
+                    pdf_data = f.read()
+
+                st.download_button(
+                    label="⬇️ Download Report Card",
+                    data=pdf_data,
+                    file_name=file_name,
+                    mime="application/pdf"
+                )
+
+                    
