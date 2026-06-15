@@ -6,6 +6,8 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 import plotly.express as px
+from reportlab.lib.pagesizes import A4
+from datetime import datetime
 
 # ---------------- CONFIG ----------------
 
@@ -493,25 +495,21 @@ else:
             title="CIE vs SEE Comparison"
         )
         st.plotly_chart(fig2, use_container_width=True)
+        
         st.subheader("📄 Report Section")
+        
+        if "report" in st.session_state:
 
-if "report" in st.session_state:
+            report = st.session_state.report
 
-    report = st.session_state.report
+            if st.button("🎓 Generate Report Card PDF"):
 
-    st.write("### Student Report Preview")
-    st.json(report)
+                file_name = generate_pdf(report)
 
-    if st.button("🎓 Generate Report Card PDF"):
-
-        file_name = generate_pdf(report)
-
-        with open(file_name, "rb") as f:
-            st.download_button(
-                label="⬇️ Download Report Card",
-                data=f,
-                file_name=file_name,
-                mime="application/pdf"
-            )
-
-
+                with open(file_name, "rb") as f:
+                    st.download_button(
+                        label="⬇️ Download Report Card",
+                        data=f,
+                        file_name=file_name,
+                        mime="application/pdf"
+                    )
