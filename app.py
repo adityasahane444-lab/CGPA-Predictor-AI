@@ -114,29 +114,64 @@ branch = st.sidebar.text_input("Branch", "AI & DS")
 sem = st.sidebar.number_input("Semester", 1, 8, 3)
 
 def generate_pdf(report):
-    file_name = f"{report['name'].replace(' ', '_')}_report.pdf"
-
-    doc = SimpleDocTemplate(file_name)
+    file_name = f"{report['name'].replace(' ', '_')}_marksheet.pdf"
+    doc = SimpleDocTemplate(file_name, pagesize=A4)
 
     styles = getSampleStyleSheet()
     content = []
 
-    # Title
-    content.append(Paragraph("🎓 STUDENT REPORT CARD", styles["Title"]))
+    # ================= HEADER =================
+    content.append(Paragraph(
+        "<b>UNIVERSITY OF ACADEMIC EXCELLENCE</b>",
+        styles["Title"]
+    ))
+
+    content.append(Paragraph(
+        "Official Grade Sheet / Provisional Marksheet",
+        styles["Heading2"]
+    ))
+
     content.append(Spacer(1, 12))
 
-    # Student Info
-    content.append(Paragraph(f"<b>Name:</b> {report['name']}", styles["Normal"]))
-    content.append(Paragraph(f"<b>Branch:</b> {report['branch']}", styles["Normal"]))
-    content.append(Paragraph(f"<b>Semester:</b> {report['semester']}", styles["Normal"]))
-    content.append(Spacer(1, 12))
+    # ================= STUDENT INFO BOX =================
+    student_info = [
+        ["Name", report["name"]],
+        ["Branch", report["branch"]],
+        ["Semester", report["semester"]],
+        ["Date", str(datetime.today().date())]
+    ]
 
-    # CGPA
-    content.append(Paragraph(f"<b>Final CGPA:</b> {report['cgpa']}", styles["Heading2"]))
-    content.append(Spacer(1, 12))
+    info_table = Table(student_info)
 
-    # Table Data
-    table_data = [["Subject", "CIE", "SEE", "GP"]]
+    info_table.setStyle(TableStyle([
+        ("BOX", (0,0), (-1,-1), 2, colors.black),
+        ("GRID", (0,0), (-1,-1), 1, colors.black),
+        ("BACKGROUND", (0,0), (0,-1), colors.lightgrey),
+        ("PADDING", (0,0), (-1,-1), 6),
+    ]))
+
+    content.append(info_table)
+    content.append(Spacer(1, 15))
+
+    # ================= CGPA HIGHLIGHT BOX =================
+    cgpa = float(report["cgpa"])
+
+    if cgpa >= 8:
+        grade = "A (Excellent)"
+    elif cgpa >= 6:
+        grade = "B (Good)"
+    else:
+        grade = "C (Needs Improvement)"
+
+    content.append(Paragraph(
+        f"<b>FINAL CGPA:</b> {cgpa} &nbsp;&nbsp;&nbsp; <b>GRADE:</b> {grade}",
+        styles["Heading2"]
+    ))
+
+    content.append(Spacer(1, 15))
+
+    # ================= SUBJECT TABLE =================
+    table_data = [["Subject", "CIE", "SEE", "Grade Point"]]
 
     for row in report["data"]:
         table_data.append([
@@ -149,27 +184,54 @@ def generate_pdf(report):
     table = Table(table_data)
 
     table.setStyle(TableStyle([
-        ("BACKGROUND", (0,0), (-1,0), colors.grey),
+        ("BACKGROUND", (0,0), (-1,0), colors.darkblue),
         ("TEXTCOLOR", (0,0), (-1,0), colors.whitesmoke),
-        ("GRID", (0,0), (-1,-1), 0.5, colors.black),
         ("ALIGN", (0,0), (-1,-1), "CENTER"),
-        ("BACKGROUND", (0,1), (-1,-1), colors.beige),
+        ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
+        ("FONTSIZE", (0,0), (-1,0), 11),
+        ("GRID", (0,0), (-1,-1), 1.2, colors.black),
+        ("ROWBACKGROUNDS", (0,1), (-1,-1), [colors.white, colors.lightgrey]),
     ]))
 
     content.append(table)
     content.append(Spacer(1, 20))
 
-    # Strength & Weakness
+    # ================= PERFORMANCE ANALYSIS =================
     best = max(report["data"], key=lambda x: x["GP"])
     weak = min(report["data"], key=lambda x: x["GP"])
 
     content.append(Paragraph(
-        f"<b>Strength:</b> {best['Subject']} (GP {best['GP']})",
+        f"<b>Strong Subject:</b> {best['Subject']} (GP {best['GP']})",
         styles["Normal"]
     ))
 
     content.append(Paragraph(
-        f"<b>Weak Area:</b> {weak['Subject']} (GP {weak['GP']})",
+        f"<b>Improvement Needed:</b> {weak['Subject']} (GP {weak['GP']})",
+        styles["Normal"]
+    ))
+
+    content.append(Spacer(1, 30))
+
+    # ================= SIGNATURE SECTION =================
+    sign_data = [
+        ["__________________", "__________________"],
+        ["Class Advisor", "Head of Department"]
+    ]
+
+    sign_table = Table(sign_data)
+
+    sign_table.setStyle(TableStyle([
+        ("ALIGN", (0,0), (-1,-1), "CENTER"),
+        ("TOPPADDING", (0,0), (-1,-1), 20),
+    ]))
+
+    content.append(sign_table)
+
+    content.append(Spacer(1, 20))
+
+    # ================= FOOTER =================
+    content.append(Paragraph(
+        "This is a system generated marksheet and does not require physical signature verification.",
         styles["Normal"]
     ))
 
