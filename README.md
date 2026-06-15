@@ -15,12 +15,14 @@
 
 ## 🚀 Overview
 
+🔗 **Live Application:** [CGPA Predictor AI](https://cgpa-predictor-ai.streamlit.app/)
+
 CGPA Predictor AI is an intelligent web application that helps students:
 
 ✨ Predict expected CGPA  
 ✨ Analyze subject performance  
 ✨ Plan target CGPA  
-✨ Find weak and strong areas  
+✨ Find weak and strong areas 
 
 
 ---
